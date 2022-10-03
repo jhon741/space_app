@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+  <title>Document</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .sun{
+      width: 700px;
+      height: 700px;
+      right: 10%;
+      top: 10%;
+      position: absolute;
+      background-image: url('./sun_square.png');
+      background-position: top center;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+    body {
+      background-color: rgba(0, 0, 0, 0.3);
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      background-image: url('./space.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+    .probe {
+      width: 500px;
+      height: 500px;
+      position: absolute;
+      background-image: url('./probe.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
+      left: 20%;
+      bottom: 10%;
+    }
+    .title {
+      position: absolute;
+      top: 120px;
+      left: 120px;
+      width: 450px;
+      font-size: 3rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: bolder;
+      color: white;
+      text-align: center;
+
+    }
+    .logo_nasa{ 
+      width: 150px;
+      height: 150px;
+      position: absolute;
+      right: 0;
+      top: 0;
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      background-image: url('./nasa.png');
+    }
+    .counter{}
+  </style>
+</head>
+<body>
+  <div class="title">
+    <h1>
+      CLOSE TO THE SUN
+    </h1>
+  </div>
+  <div class="sun"></div>
+  <div class="probe"></div>
+  <div class="logo_nasa"></div>
+  <div class="counter"></div>
+ <script>
+    let redSquare = $('.sun')
+    let probe = $('.probe')
+    let title = $('.title')
+    let xPosition = 0
+    $('body').mousemove((e)=>{
+      const clientX = e.pageX
+      const screenWidth = +$('body').css('width').replaceAll('px', '')
+
+      animateElements([{
+        element: redSquare,
+        orientation: 'left'
+      }, {
+        element: probe,
+        orientation: 'right'
+      },{
+        element: title,
+        orientation: 'right'
+      }], clientX);
+
+      xPosition = clientX
+      
+    })
+
+    const animateElements = (elements, clientX) => { 
+      // const clientX = e.pageX
+      elements.forEach(element => {
+        
+        let {leftMovement, rightMovement} = element.orientation == 'left' ? {leftMovement :  "-=1", rightMovement :  "+=1"}: {leftMovement :  "+=1", rightMovement :  "-=1"} 
+
+        console.log(leftMovement, rightMovement);
+
+
+        if(xPosition < clientX) {
+        console.log('should move to the right');
+        element.element.animate({
+          // opacity: 0.25,
+          left: leftMovement,
+          // height: "toggle"
+        }, 0, function() {
+          // Animation complete.
+        });
+      } else {
+        console.log('should move to the left');
+        element.element.animate({
+          // opacity: 0.25,
+          left: rightMovement,
+          // height: "toggle"
+        }, 0, function() {
+          // Animation complete.
+        });
+      }
+      });
+    }
+    
+ </script>
+
+</body>
+</html>
