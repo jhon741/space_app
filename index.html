@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-  <title>Document</title>
+  <title>CLOSE TO THE SUN</title>
   <style>
     *{
       margin: 0;
@@ -103,7 +103,22 @@
     .btn:active {
       transform: scale(0.95);
     }
-    .counter{}
+    .counter{
+      width: 100%;
+      height: 20px;
+      bottom: 0;
+      left: 0;
+      position: absolute;
+      background-color: white;
+    }
+    .bar {
+      width: 0%;
+      height: 20px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      background-color: #0B3D92;
+    }
   </style>
 </head>
 <body>
@@ -118,14 +133,30 @@
   <div class="sun"></div>
   <div class="probe"></div>
   <div class="logo_nasa"></div>
-  <div class="counter"></div>
+  <div class="counter">
+    <div class="bar"></div>
+  </div>
   <div class="narracion">
     <audio class="audio" src="./narracion.ogg" controls></audio>
   </div>
  <script>
+    let audio = document.querySelector('.audio')
+    audio.ontimeupdate = function() {myFunction()};
+
+    function myFunction(e) {
+      // Display the current position of the video in a p element with id="demo"
+      // document.getElementById("demo").innerHTML = vid.currentTime;
+      console.log(audio.currentTime);
+      $('.bar').css('width', `${(audio.currentTime/audio.duration) * 100}%`)
+    }
+    // audio.ontimeupdate((e)=>{
+    //   console.log(e);
+    // })
+
     $('.btn').click(()=>{
       $('.modal').css('display', 'none')
-      document.querySelector('.audio').play()
+      audio.play()
+      console.log(audio.duration);
     })
     let redSquare = $('.sun')
     let probe = $('.probe')
@@ -156,11 +187,7 @@
         
         let {leftMovement, rightMovement} = element.orientation == 'left' ? {leftMovement :  "-=1", rightMovement :  "+=1"}: {leftMovement :  "+=1", rightMovement :  "-=1"} 
 
-        console.log(leftMovement, rightMovement);
-
-
         if(xPosition < clientX) {
-        console.log('should move to the right');
         element.element.animate({
           // opacity: 0.25,
           left: leftMovement,
@@ -169,7 +196,6 @@
           // Animation complete.
         });
       } else {
-        console.log('should move to the left');
         element.element.animate({
           // opacity: 0.25,
           left: rightMovement,
